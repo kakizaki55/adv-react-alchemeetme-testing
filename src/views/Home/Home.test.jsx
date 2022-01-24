@@ -20,10 +20,12 @@ test('Should render the user profile', async () => {
   const img = await screen.findByAltText('header')
   const thumbImg = await screen.findByAltText('avatar')
   const likes = await screen.findByRole('list')
+  const interestsHeading = screen.getByText(/interests/i)
 
   expect(img).toBeInTheDocument()
   expect(thumbImg).toBeInTheDocument()
   expect(name).toBeInTheDocument()
 
   expect(likes.children.length).toEqual(6)
+  expect(interestsHeading).toBeInTheDocument()
 })
