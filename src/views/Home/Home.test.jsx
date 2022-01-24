@@ -1,3 +1,5 @@
+import { render, screen } from '@testing-library/react'
+import Home from './Home'
 
 const user = {
   id: 1,
@@ -10,6 +12,18 @@ const user = {
   color: 'crimson',
 }
 
-test('Should render the user profile', () => {
+test('Should render the user profile', async () => {
+  render(<Home user={user} />)
 
+  const name = await screen.findByRole('heading', { name: /vonta/i })
+
+  const img = await screen.findByAltText('header')
+  const thumbImg = await screen.findByAltText('avatar')
+  const likes = await screen.findByRole('list')
+
+  expect(img).toBeInTheDocument()
+  expect(thumbImg).toBeInTheDocument()
+  expect(name).toBeInTheDocument()
+
+  expect(likes.children.length).toEqual(6)
 })
