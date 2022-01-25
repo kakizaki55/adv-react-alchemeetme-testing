@@ -11,21 +11,34 @@ const user = {
   motto: 'Res Non Verba',
   color: 'crimson',
 }
+test(' making usre the user have all the right properties', () => {
+  render(<Home user={user} />)
+
+  expect(user).toHaveProperty('id')
+  expect(user).toHaveProperty('name')
+  expect(user).toHaveProperty('avatar')
+  expect(user).toHaveProperty('header')
+  expect(user).toHaveProperty('likes')
+  expect(user).toHaveProperty('motto')
+  expect(user).toHaveProperty('color')
+})
 
 test('Should render the user profile', async () => {
   render(<Home user={user} />)
+  const { name, likes, motto, color } = user
 
-  const name = await screen.findByRole('heading', { name: /vonta/i })
-
+  const headingName = await screen.findByRole('heading', { name })
   const img = await screen.findByAltText('header')
   const thumbImg = await screen.findByAltText('avatar')
-  const likes = await screen.findByRole('list')
+  const cardLikes = await screen.findByRole('list')
   const interestsHeading = screen.getByText(/interests/i)
+  const cardMotto = await screen.findByText(motto)
+  const cardcolor = screen.getByText(color)
 
-  expect(img).toBeInTheDocument()
   expect(thumbImg).toBeInTheDocument()
-  expect(name).toBeInTheDocument()
-
-  expect(likes.children.length).toEqual(6)
+  expect(headingName).toBeInTheDocument()
+  expect(cardLikes.children.length).toEqual(likes.length)
   expect(interestsHeading).toBeInTheDocument()
+  expect(cardMotto).toBeInTheDocument()
+  expect(cardcolor).toBeInTheDocument()
 })
